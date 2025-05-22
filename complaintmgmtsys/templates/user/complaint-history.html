@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="row">
+  <div class="col-lg-12 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title text-left">
+   
+          {% if status_filter == '0' %}
+            Not Processed Yet
+          {% elif status_filter == 'Inprocess' %}
+            In Process
+          {% elif status_filter == 'Closed' %}
+            Closed
+          {% else %}
+            All Complaints
+          {% endif %}
+        </h4>
+        {% include 'includes/messages.html' %}
+
+      <div class="table-responsive">
+        <table class="table table-bordered table-hover">
+<thead>
+  <tr style="background-color: #7a7d80;"> <!-- Light gray background -->
+    <th class="fw-bold text-black text-uppercase fs-5">#</th>
+    <th class="fw-bold text-black text-uppercase fs-5">Complaint No</th>
+    <th class="fw-bold text-black text-uppercase fs-5">Name</th>
+    <th class="fw-bold text-black text-uppercase fs-5">Mobile Number</th>
+    <th class="fw-bold text-black text-uppercase fs-5">Created On</th>
+    <th class="fw-bold text-black text-uppercase fs-5">Resolve By</th>
+    <th class="fw-bold text-black text-uppercase fs-5">Status</th>
+    <th class="fw-bold text-black text-uppercase fs-5">Action</th>
+  </tr>
+</thead>
+          <tbody>
+  {% if complaints %}
+    {% for i in complaints %}
+    <tr>
+      <td>{{ forloop.counter }}</td>
+      <td>{{ i.complaint_number }}</td>
+      <td>{{ i.userregid.admin.first_name }} {{ i.userregid.admin.last_name }}</td>
+      <td>{{ i.userregid.mobilenumber }}</td>
+      <td>{{ i.complaintdate_at }}</td>
+      <td>{{ i.due_date }} </td>
+      <td>
+        {% if i.status == '0' %}
+          <span class="badge bg-danger">Not Processed Yet</span>
+        {% elif i.status == 'Inprocess' %}
+          <span class="badge bg-warning text-dark">In Process</span>
+        {% elif i.status == 'Closed' %}
+          <span class="badge bg-success">Closed</span>
+        {% endif %}
+      </td>
+      <td>
+        <a href="{% url 'complainthistorydetails' i.id %}" class="btn btn-success btn-sm">View</a>
+        
+      </td>
+    </tr>
+    {% endfor %}
+  {% else %}
+    <tr>
+      <td colspan="8" class="text-center text-muted fw-bold">Nothing to see here</td>
+    </tr>
+  {% endif %}
+</tbody>
+        </table>
+      </div>
+
+        <!-- Pagination -->
+        <div class="pagination mt-3 text-left">
+          <span class="step-links">
+            {% if complaints.has_previous %}
+              <a class="btn btn-sm btn-outline-secondary" href="?page=1">&laquo; First</a>
+              <a class="btn btn-sm btn-outline-secondary" href="?page={{ complaints.previous_page_number }}">Previous</a>
+            {% endif %}
+
+            <span class="mx-2">Page {{ complaints.number }} of {{ complaints.paginator.num_pages }}</span>
+
+            {% if complaints.has_next %}
+              <a class="btn btn-sm btn-outline-secondary" href="?page={{ complaints.next_page_number }}">Next</a>
+              <a class="btn btn-sm btn-outline-secondary" href="?page={{ complaints.paginator.num_pages }}">Last &raquo;</a>
+            {% endif %}
+          </span>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

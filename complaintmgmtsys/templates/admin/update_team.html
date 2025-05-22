@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="row">
+    <div class="col-md-6 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Update Team</h4>
+                <hr>
+                
+                <!-- Update team form -->
+                <form class="forms-sample" method="POST" action="{% url 'update_team_details' %}">
+                    {% include 'includes/messages.html' %}
+                    {% csrf_token %}
+                    
+                    <!-- Hidden field to store the team ID -->
+                    <input type="hidden" name="team_id" value="{{ team.id }}">
+                    
+                    <!-- Team Name Input -->
+                    <div class="form-group">
+                        <label for="teamName">Team Name</label>
+                        <input type="text" id="teamName" name="name" class="form-control" required="true" value="{{ team.name }}">
+                    </div>
+                    
+                    <!-- Team Description Input -->
+                    <div class="form-group">
+                        <label for="teamDescription">Team Description</label>
+                        <textarea id="teamDescription" name="description" class="form-control" required="true">{{ team.description }}</textarea>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button type="submit" class="btn btn-primary mr-2">Update</button>
+                    <a href="{% url 'manage_team' %}" class="btn btn-light">Cancel</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

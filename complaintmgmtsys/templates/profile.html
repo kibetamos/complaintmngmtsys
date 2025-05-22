@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="row">
+  <div class="col-md-6 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">Profile Details</h4>
+        <hr>
+        <form method="POST" action="{% url 'profile_update' %}" enctype="multipart/form-data" class="forms-sample">
+          {% csrf_token %}
+          {% include 'includes/messages.html' %}
+
+          <!-- Profile Picture Upload -->
+          <div class="form-group">
+            <label for="profile_pic">Profile Pic</label>
+            <input type="file" class="form-control" id="profile_pic" name="profile_pic" onchange="previewImage(event)">
+            <img
+              id="preview"
+              class="mt-3 rounded"
+              src="{{ user.profile.profile_pic.url|default_if_none:'#' }}"
+              alt="Preview"
+              style="max-width: 150px; max-height: 150px; {% if not user.profile.profile_pic.url %}display:none;{% endif %}"
+            >
+          </div>
+
+          <!-- First Name -->
+          <div class="form-group">
+            <label for="first_name">First Name</label>
+            <input type="text" class="form-control" name="first_name" value="{{ user.first_name }}">
+          </div>
+
+          <!-- Last Name -->
+          <div class="form-group">
+            <label for="last_name">Last Name</label>
+            <input type="text" class="form-control" name="last_name" value="{{ user.last_name }}">
+          </div>
+
+          <!-- Email (Read-only) -->
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" class="form-control" readonly name="email" value="{{ user.email }}">
+          </div>
+
+          <!-- Username (Read-only) -->
+          <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" class="form-control" readonly name="username" value="{{ user.username }}">
+          </div>
+
+          <!-- Submit -->
+          <button type="submit" class="btn btn-primary mr-2">Update</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Image Preview Script -->
+<script>
+  function previewImage(event) {
+    const preview = document.getElementById('preview');
+    const file = event.target.files[0];
+    if (file) {
+      preview.src = URL.createObjectURL(file);
+      preview.style.display = 'block';
+    }
+  }
+</script>
+
+{% endblock %}

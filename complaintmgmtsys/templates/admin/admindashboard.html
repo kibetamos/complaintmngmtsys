@@ -1,0 +1,193 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<style>
+    .card {
+        border: none;
+        border-radius: 1rem;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        transition: transform 0.2s ease-in-out;
+    }
+
+    .card:hover {
+        transform: scale(1.02);
+    }
+
+    .card-title {
+        font-size: 1.2rem;
+        font-weight: 600;
+    }
+
+    .card-body h2 {
+        font-size: 2.5rem;
+        font-weight: 700;
+    }
+
+    .list-group-item {
+        border: none;
+        padding: 0.75rem 1rem;
+        transition: background-color 0.2s;
+    }
+
+    .list-group-item:hover {
+        background-color: #f8f9fa;
+    }
+
+    .section-title {
+        font-weight: 600;
+        font-size: 1.3rem;
+        margin-bottom: 1rem;
+    }
+
+    .refresh-button {
+        transition: background-color 0.3s ease;
+    }
+
+    .refresh-button:hover {
+        background-color: #004085;
+    }
+</style>
+
+<div class="row mb-4">
+    <div class="col-md-12 d-flex justify-content-between align-items-center">
+        <h2 class="font-weight-bold mb-0">Welcome, {{ request.user.username }}!</h2>
+        <button class="btn btn-primary refresh-button" onclick="location.reload();">
+            <i class="fas fa-sync-alt"></i> Refresh
+        </button>
+    </div>
+</div>
+
+<!-- Quick Stats Section -->
+<div class="row g-4">
+    <!-- Total Reg Users -->
+    <div class="col-md-3">
+        <div class="card bg-primary text-white">
+            <div class="card-body">
+                <h5 class="card-title">Total Registered Users</h5>
+                <h2>{{ user_count }}</h2>
+                <a href="{% url 'manageusers' %}" class="text-white">View Details <i class="fas fa-arrow-right"></i></a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Total Category -->
+    <div class="col-md-3">
+        <div class="card bg-success text-white">
+            <div class="card-body">
+                <h5 class="card-title">Total Categories</h5>
+                <h2>{{ category_count }}</h2>
+                <a href="{% url 'manage_category' %}" class="text-white">View Details <i class="fas fa-arrow-right"></i></a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Total Subcategory -->
+    <div class="col-md-3">
+        <div class="card bg-warning text-white">
+            <div class="card-body">
+                <h5 class="card-title">Total Subcategories</h5>
+                <h2>{{ subcategory_count }}</h2>
+                <a href="{% url 'manage_subcategory' %}" class="text-white">View Details <i class="fas fa-arrow-right"></i></a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Total State -->
+    <div class="col-md-3">
+        <div class="card bg-danger text-white">
+            <div class="card-body">
+                <h5 class="card-title">Total States</h5>
+                <h2>{{ state_count }}</h2>
+                <a href="{% url 'manage_state' %}" class="text-white">View Details <i class="fas fa-arrow-right"></i></a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Charts Section -->
+<div class="row mt-5 g-4">
+    <div class="col-md-6">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5 class="section-title">Complaints Overview</h5>
+                <canvas id="complaintsBarChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5 class="section-title">Complaints Distribution</h5>
+                <canvas id="complaintsPieChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Recent Activity Section -->
+<div class="row mt-5">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="section-title">Recent Activity</h5>
+                <ul class="list-group">
+                    <li class="list-group-item"><i class="fas fa-comment-dots text-primary me-2"></i>New complaint submitted by User123</li>
+                    <li class="list-group-item"><i class="fas fa-cogs text-success me-2"></i>Category "Technical Issues" updated</li>
+                    <li class="list-group-item"><i class="fas fa-user-plus text-info me-2"></i>User456 registered</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    // Bar Chart
+    const barCtx = document.getElementById('complaintsBarChart').getContext('2d');
+    const complaintsBarChart = new Chart(barCtx, {
+        type: 'bar',
+        data: {
+            labels: ['Total', 'New', 'In-process', 'Closed'],
+            datasets: [{
+                label: 'Complaints',
+                data: [{{ complaints_count }}, {{ newcom_count }}, {{ ipcom_count }}, {{ closed_count }}],
+                backgroundColor: ['#36A2EB', '#FFCE56', '#FF6384', '#4BC0C0'],
+                borderColor: ['#007bff', '#ffc107', '#dc3545', '#28a745'],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: { beginAtZero: true }
+            }
+        }
+    });
+
+    // Pie Chart
+    const pieCtx = document.getElementById('complaintsPieChart').getContext('2d');
+    const complaintsPieChart = new Chart(pieCtx, {
+        type: 'pie',
+        data: {
+            labels: ['New', 'In-process', 'Closed'],
+            datasets: [{
+                label: 'Complaints',
+                data: [{{ newcom_count }}, {{ ipcom_count }}, {{ closed_count }}],
+                backgroundColor: ['#FFCE56', '#FF6384', '#4BC0C0'],
+                borderColor: ['#ffc107', '#dc3545', '#28a745'],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: { position: 'top' },
+                tooltip: { enabled: true }
+            }
+        }
+    });
+</script>
+
+{% endblock %}

@@ -1,0 +1,312 @@
+{% load static %}
+{% if user.user_type == 1 %}
+<nav class="sidebar sidebar-offcanvas" id="sidebar">
+    <ul class="nav">
+        <li class="nav-item nav-profile">
+            <a href="#" class="nav-link">
+                <div class="profile-image">
+                    <img class="img-xs rounded-circle" src="/{{user.profile_pic}}" alt="">
+                    <div class="dot-indicator bg-success"></div>
+                </div>
+                <div class="text-wrapper">
+                    <p class="profile-name">{{user.first_name}} {{user.last_name}}</p>
+                    <p class="designation">Administrator</p>
+                </div>
+            </a>
+        </li>
+        <li class="nav-item nav-category">
+            <span class="nav-link">Dashboard</span>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'admin_home' %}">
+                <span class="menu-title">Dashboard</span>
+                <i class="icon-screen-desktop menu-icon"></i>
+            </a>
+        </li>
+
+                <li class="nav-item">
+            <a class="nav-link" href="{% url 'regcomplaint' %}">
+                <span class="menu-title">Lodge Complaints</span>
+                <i class="icon-book-open menu-icon"></i>
+            </a>
+        </li>
+                </li>
+           <li class="nav-item">
+            <a class="nav-link" href="{% url 'complainthistory' %}">
+                <span class="menu-title">Complaint History</span>
+                <i class="icon-chart menu-icon"></i>
+            </a>
+        </li>
+        
+        <!-- Category Section -->
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
+                <span class="menu-title">Category</span>
+                <i class="icon-doc menu-icon"></i>
+            </a>
+            <div class="collapse" id="ui-basic">
+                <ul class="nav flex-column sub-menu">
+                    <li class="nav-item"> <a class="nav-link" href="{% url 'add_category' %}">Add Category</a></li>
+                    <li class="nav-item"> <a class="nav-link" href="{% url 'manage_category' %}">Manage Category</a></li>
+                </ul>
+            </div>
+        </li>
+        
+        <!-- Subcategory Section -->
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#ui-basic1" aria-expanded="false" aria-controls="ui-basic1">
+                <span class="menu-title">Subcategory</span>
+                <i class="icon-doc menu-icon"></i>
+            </a>
+            <div class="collapse" id="ui-basic1">
+                <ul class="nav flex-column sub-menu">
+                    <li class="nav-item"> <a class="nav-link" href="{% url 'add_subcategory' %}">Add Subcategory</a></li>
+                    <li class="nav-item"> <a class="nav-link" href="{% url 'manage_subcategory' %}">Manage Subcategory</a></li>
+                </ul>
+            </div>
+        </li>
+        
+        <!-- State Section -->
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#ui-basic2" aria-expanded="false" aria-controls="ui-basic2">
+                <span class="menu-title">State</span>
+                <i class="icon-doc menu-icon"></i>
+            </a>
+            <div class="collapse" id="ui-basic2">
+                <ul class="nav flex-column sub-menu">
+                    <li class="nav-item"> <a class="nav-link" href="{% url 'add_state' %}">Add State</a></li>
+                    <li class="nav-item"> <a class="nav-link" href="{% url 'manage_state' %}">Manage State</a></li>
+                </ul>
+            </div>
+        </li>
+
+        <!-- Teams Section -->
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#teams" aria-expanded="false" aria-controls="teams">
+                <span class="menu-title">Teams</span>
+                <i class="icon-people menu-icon"></i>
+            </a>
+            <div class="collapse" id="teams">
+                <ul class="nav flex-column sub-menu">
+                    <li class="nav-item"> <a class="nav-link" href="{% url 'add_team' %}">Add Team</a></li>
+                    <li class="nav-item"> <a class="nav-link" href="{% url 'manage_team' %}">Manage Teams</a></li>
+                </ul>
+            </div>
+        </li>
+
+        <!-- Manage Users Section -->
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'manageusers' %}">
+                <span class="menu-title">Manage Users</span>
+                <i class="icon-user menu-icon"></i>
+            </a>
+        </li>
+
+        <!-- User Complaints Section -->
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#auth" aria-expanded="false" aria-controls="auth">
+                <span class="menu-title">User Complaints</span>
+                <i class="icon-doc menu-icon"></i>
+            </a>
+            <div class="collapse" id="auth">
+                <ul class="nav flex-column sub-menu">
+                    <li class="nav-item"> <a class="nav-link" href="{% url 'lodgedcomplaint' %}">All Complaints</a></li>
+                    <li class="nav-item"> <a class="nav-link" href="{% url 'newcomplaints' %}">Not Processed Yet</a></li>
+                    <li class="nav-item"> <a class="nav-link" href="{% url 'inprocesscomplaints' %}">In Process</a></li>
+                    <li class="nav-item"> <a class="nav-link" href="{% url 'closedcomplaints' %}">Closed Complaints</a></li>
+                </ul>
+            </div>
+        </li>
+
+        <!-- Reports Section -->
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#auth1" aria-expanded="false" aria-controls="auth1">
+                <span class="menu-title">Reports</span>
+                <i class="icon-doc menu-icon"></i>
+            </a>
+            <div class="collapse" id="auth1">
+                <ul class="nav flex-column sub-menu">
+                    <li class="nav-item"> <a class="nav-link" href="{% url 'complaintsreports' %}">Complaints Report</a></li>
+                    <li class="nav-item"> <a class="nav-link" href="{% url 'userbdreports' %}">User Reports</a></li>
+                </ul>
+            </div>
+        </li>
+
+        <!-- Search Section -->
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#auth2" aria-expanded="false" aria-controls="auth2">
+                <span class="menu-title">Search</span>
+                <i class="icon-doc menu-icon"></i>
+            </a>
+            <div class="collapse" id="auth2">
+                <ul class="nav flex-column sub-menu">
+                    <li class="nav-item"> <a class="nav-link" href="{% url 'searchusers' %}">User Search</a></li>
+                    <li class="nav-item"> <a class="nav-link" href="{% url 'searchcomplaints' %}">Complaints Search</a></li>
+                </ul>
+            </div>
+        </li>
+    </ul>
+</nav>
+{% elif user.user_type == 2 %}
+<nav class="sidebar sidebar-offcanvas" id="sidebar">
+    <ul class="nav">
+        <li class="nav-item nav-profile">
+            <a href="#" class="nav-link">
+                <div class="profile-image">
+                    <img class="img-xs rounded-circle" src="/{{user.profile_pic}}" alt="">
+                    <div class="dot-indicator bg-success"></div>
+                </div>
+                <div class="text-wrapper">
+                    <p class="profile-name">{{user.first_name}} {{user.last_name}}</p>
+                    <p class="designation">User</p>
+                </div>
+            </a>
+        </li>
+        <li class="nav-item nav-category">
+            <span class="nav-link">Dashboard</span>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'user_home' %}">
+                <span class="menu-title">Dashboard</span>
+                <i class="icon-screen-desktop menu-icon"></i>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'regcomplaint' %}">
+                <span class="menu-title">Lodge Complaints</span>
+                <i class="icon-book-open menu-icon"></i>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'complainthistory' %}">
+                <span class="menu-title">Complaint History</span>
+                <i class="icon-chart menu-icon"></i>
+            </a>
+        </li>
+
+        
+    </ul>
+</nav>
+{% elif user.user_type == 3 %}
+<nav class="sidebar sidebar-offcanvas" id="sidebar">
+    <ul class="nav">
+        <li class="nav-item nav-profile">
+            <a href="#" class="nav-link">
+                <div class="profile-image">
+                    <img class="img-xs rounded-circle" src="/{{user.profile_pic}}" alt="">
+                    <div class="dot-indicator bg-success"></div>
+                </div>
+                <div class="text-wrapper">
+                    <p class="profile-name">{{user.first_name}} {{user.last_name}}</p>
+                    <p class="designation">Staff</p>
+                </div>
+            </a>
+        </li>
+        <li class="nav-item nav-category">
+            <span class="nav-link">Dashboard</span>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'admin_home' %}">
+                <span class="menu-title">Dashboard</span>
+                <i class="icon-screen-desktop menu-icon"></i>
+            </a>
+        </li>
+         <li class="nav-item">
+            <a class="nav-link" href="{% url 'regcomplaint' %}">
+                <span class="menu-title">Lodge Complaints</span>
+                <i class="icon-book-open menu-icon"></i>
+            </a>
+        </li>
+                <li class="nav-item">
+            <a class="nav-link" href="{% url 'lodgedcomplaint' %}">
+                <span class="menu-title">Complaint History</span>
+                <i class="icon-chart menu-icon"></i>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#auth" aria-expanded="false" aria-controls="auth">
+                <span class="menu-title">User Complaints</span>
+                <i class="icon-doc menu-icon"></i>
+            </a>
+            <div class="collapse" id="auth">
+                <ul class="nav flex-column sub-menu">
+                    <li class="nav-item"> <a class="nav-link" href="{% url 'lodgedcomplaint' %}">All Complaints</a></li>
+                    <li class="nav-item"> <a class="nav-link" href="{% url 'newcomplaints' %}">Not Processed Yet</a></li>
+                    <li class="nav-item"> <a class="nav-link" href="{% url 'inprocesscomplaints' %}">In Process</a></li>
+                    <li class="nav-item"> <a class="nav-link" href="{% url 'closedcomplaints' %}">Closed Complaints</a></li>
+                </ul>
+            </div>
+        </li>
+
+         <!-- Reports Section -->
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#auth1" aria-expanded="false" aria-controls="auth1">
+                <span class="menu-title">Reports</span>
+                <i class="icon-doc menu-icon"></i>
+            </a>
+            <div class="collapse" id="auth1">
+                <ul class="nav flex-column sub-menu">
+                    <li class="nav-item"> <a class="nav-link" href="{% url 'complaintsreports' %}">Complaints Report</a></li>
+                    <li class="nav-item"> <a class="nav-link" href="{% url 'userbdreports' %}">User Reports</a></li>
+                </ul>
+            </div>
+        </li>
+
+        <!-- Search Section -->
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#auth2" aria-expanded="false" aria-controls="auth2">
+                <span class="menu-title">Search</span>
+                <i class="icon-doc menu-icon"></i>
+            </a>
+            <div class="collapse" id="auth2">
+                <ul class="nav flex-column sub-menu">
+                    <li class="nav-item"> <a class="nav-link" href="{% url 'searchusers' %}">User Search</a></li>
+                    <li class="nav-item"> <a class="nav-link" href="{% url 'searchcomplaints' %}">Complaints Search</a></li>
+                </ul>
+            </div>
+        </li>
+      
+    </ul>
+</nav>
+
+
+{% else %}
+<nav class="sidebar sidebar-offcanvas" id="sidebar">
+    <ul class="nav">
+        <li class="nav-item nav-profile">
+            <a href="#" class="nav-link">
+                <div class="profile-image">
+                    <img class="img-xs rounded-circle" src="/{{user.profile_pic}}" alt="">
+                    <div class="dot-indicator bg-success"></div>
+                </div>
+                <div class="text-wrapper">
+                    <p class="profile-name">{{user.first_name}} {{user.last_name}}</p>
+                    <p class="designation">User123</p>
+                </div>
+            </a>
+        </li>
+        <li class="nav-item nav-category">
+            <span class="nav-link">Dashboard</span>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'user_home' %}">
+                <span class="menu-title">Dashboard</span>
+                <i class="icon-screen-desktop menu-icon"></i>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'regcomplaint' %}">
+                <span class="menu-title">Lodge Complaints</span>
+                <i class="icon-book-open menu-icon"></i>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'complainthistory' %}">
+                <span class="menu-title">Complaint History</span>
+                <i class="icon-chart menu-icon"></i>
+            </a>
+        </li>
+    </ul>
+</nav>
+{% endif %}

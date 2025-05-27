@@ -3,6 +3,8 @@ from django.contrib.auth.models import AbstractUser
 from datetime import timedelta
 from django.utils.timezone import now
 
+from django.conf import settings
+
 
 # class CustomUser(AbstractUser):
 #     USER_TYPES = [
@@ -175,6 +177,12 @@ class Complaints(models.Model):
     status = models.CharField(max_length=250, default=0)
     updated_at = models.DateTimeField(auto_now=True)
     assigned_team = models.ForeignKey(Team, on_delete=models.SET_NULL, null=True, blank=True)
+    assigned_to = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        limit_choices_to={'user_type': 3},
+        related_name='assigned_complaints'
+    )
     resolved_by = models.ForeignKey(
         CustomUser, 
         on_delete=models.SET_NULL, 

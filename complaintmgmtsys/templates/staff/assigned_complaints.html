@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <h3>My Assigned Complaints</h3>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Complaint</th>
+                <th>Description</th>
+                <th>Status</th>
+                <th>Due Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for complaint in complaints %}
+            <tr>
+                <td>{{ complaint.complainttype }}</td>
+                <td>{{ complaint.noc }}</td>
+                <td>{{ complaint.status }}</td>
+                <td>{{ complaint.due_date}}</td>
+                <td>
+                    {% if complaint.status == '0' %}
+                        <span class="badge badge-danger">Not Processed Yet</span>
+                    {% elif complaint.status == 'Inprocess' %}
+                        <span class="badge badge-warning">In Process</span>
+                    {% elif complaint.status == 'Closed' %}
+                        <span class="badge badge-success">Closed</span>
+                    {% endif %}
+                </td>
+                <td>
+                    <a href="{% url 'viewlodgedcomplaint' complaint.id %}" class="btn btn-success">View</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="4">No complaints assigned yet.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

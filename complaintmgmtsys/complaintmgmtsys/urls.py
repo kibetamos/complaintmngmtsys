@@ -81,6 +81,11 @@ urlpatterns = [
 
 
 
+
+path('assign-complaints/', adminviews.assign_complaints, name='assign_complaints'),
+    path('my-complaints/', userviews.view_assigned_complaints, name='view_assigned_complaints'),
+
+
     #last urls updates
     # path('dashboard/', views.dashboard_redirect, name='dashboard'),
     path('staff', adminviews.staff_dashboard, name='staff_dashboard'),

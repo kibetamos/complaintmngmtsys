@@ -90,6 +90,17 @@ def USERSIGNUP(request):
     
     
 
+from cmsapp.models import Complaints
+@login_required
+def view_assigned_complaints(request):
+    assigned_complaints = Complaints.objects.filter(assigned_to=request.user)
+    
+    return render(request, 'staff/assigned_complaints.html', {
+        'complaints': assigned_complaints
+    })
+
+
+
     return render(request,'user/user_reg.html')
 
 

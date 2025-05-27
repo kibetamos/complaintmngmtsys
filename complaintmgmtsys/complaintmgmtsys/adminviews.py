@@ -383,6 +383,29 @@ def MANAGE_STATE(request):
     context = {'states': states}
     return render(request, 'admin/manage_state.html', context)
 
+# from cmsapp.models import CustomUser  # make sure this is your actual model import
+
+# def MANAGEUSERS(request):
+#     # Filter only users of type 'Staff'
+#     user_list = CustomUser.objects.filter(user_type=3)
+
+#     paginator = Paginator(user_list, 4)  # Show 4 users per page
+#     page_number = request.GET.get('page')
+
+#     try:
+#         userlist = paginator.page(page_number)
+#     except PageNotAnInteger:
+#         userlist = paginator.page(1)
+#     except EmptyPage:
+#         userlist = paginator.page(paginator.num_pages)
+
+#     context = {
+#         'userlist': userlist,
+#         'states': userlist,
+#     }
+#     return render(request, 'admin/manage_userlist.html', context)
+
+
 @login_required(login_url='/')
 def MANAGEUSERS(request):
     user_list = UserReg.objects.all()
@@ -400,6 +423,40 @@ def MANAGEUSERS(request):
 
     context = {'userlist': userlist}
     return render(request, 'admin/manage_userlist.html', context)
+
+
+
+
+from cmsapp.models import Complaints
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
+
+@login_required
+def assign_complaints(request):
+    complaints = Complaints.objects.all()
+    staff_users = User.objects.filter(user_type=3)
+    complaints = Complaints.objects.all()
+
+    if request.method == 'POST':
+        for key in request.POST:
+            if key.startswith('assign_'):
+                complaint_id = key.split('_')[1]
+                staff_id = request.POST[key]
+                complaint = Complaints.objects.get(pk=complaint_id)
+                staff_user = User.objects.get(pk=staff_id)
+                complaint.assigned_to = staff_user
+                complaint.save()
+        return redirect('assign_complaints')
+    print(complaints)
+    context = {
+        'complaints': complaints,
+        'staff_users': staff_users
+    }
+    return render(request, 'admin/assign_complaints_bulk.html', context)
+
+
+
 
 login_required(login_url='/')
 def VIEWUSERS(request,id):

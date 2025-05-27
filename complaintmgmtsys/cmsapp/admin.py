@@ -9,6 +9,7 @@ from .forms import CustomUserCreationForm, CustomUserChangeForm
 
 # admin.site.register(CustomUser,UserModel)
 admin.site.register(Category)
+admin.site.register(Complaints)
 
 # admin.site.register(Subcategory)
 

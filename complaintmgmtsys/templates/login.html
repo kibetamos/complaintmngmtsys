@@ -4,7 +4,7 @@
     {% load static %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Page</title>
+    <title>Login - Complaint Mgmt System</title>
 
     <!-- Plugins CSS -->
     <link rel="stylesheet" href="{% static 'assets/vendors/simple-line-icons/css/simple-line-icons.css' %}">
@@ -17,59 +17,94 @@
     <!-- Custom Styling -->
     <style>
       body {
-        background: linear-gradient(to right, #4e54c8, #8f94fb);
+        background: linear-gradient(120deg, #4e54c8, #8f94fb);
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        margin: 0;
       }
 
       .auth-form-light {
-        border-radius: 12px;
-        box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.15);
+        border-radius: 16px;
+        box-shadow: 0px 12px 30px rgba(0, 0, 0, 0.2);
         background-color: #ffffff;
+        padding: 40px 30px;
+        max-width: 500px;
+        width: 100%;
+        animation: fadeIn 0.6s ease;
+      }
+
+      @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
       }
 
       .brand-logo h2 {
         font-weight: bold;
         text-align: center;
         color: #4e54c8;
+        margin-bottom: 10px;
+      }
+
+      .brand-logo hr {
+        border-top: 2px solid #4e54c8;
+        width: 60px;
+        margin: 10px auto 20px auto;
+      }
+
+      .form-control {
+        border-radius: 10px;
+        padding: 15px;
+        font-size: 15px;
+        border: 1px solid #ced4da;
+        background-color: #f9f9f9;
+        transition: all 0.3s ease;
+      }
+
+      .form-control:focus {
+        border-color: #4e54c8;
+        box-shadow: 0 0 8px rgba(78, 84, 200, 0.4);
+        background-color: #fff;
       }
 
       .btn-primary {
         background-color: #4e54c8;
         border: none;
+        padding: 12px;
+        font-size: 16px;
+        font-weight: 600;
+        transition: background-color 0.3s ease;
       }
 
       .btn-primary:hover {
-        background-color: #3c40a0;
+        background-color: #3a3f9d;
       }
 
       .signup-btn {
         background-color: #6c757d;
         color: white;
+        padding: 12px;
+        font-size: 16px;
+        font-weight: 600;
+        transition: background-color 0.3s ease;
         text-decoration: none;
+        display: block;
       }
 
       .signup-btn:hover {
-        background-color: #5a6268;
+        background-color: #565e64;
         color: white;
       }
 
-      .form-control {
-        border-radius: 8px;
-        padding: 14px;
-        font-size: 16px;
-        border: 1px solid #ced4da;
-        background-color: #f8f9fa;
-        transition: border-color 0.3s ease, box-shadow 0.3s ease;
+      .form-check-input {
+        margin-top: 2px;
       }
 
-      .form-control:focus {
-        border-color: #4e54c8;
-        box-shadow: 0 0 0 0.2rem rgba(78, 84, 200, 0.25);
-        background-color: #fff;
-      }
-
-      .form-group {
-        margin-bottom: 20px;
+      .form-check-label {
+        font-size: 14px;
+        color: #6c757d;
       }
 
       .text-primary:hover {
@@ -79,57 +114,44 @@
   </head>
 
   <body>
-    <div class="container-scroller">
-      <div class="container-fluid page-body-wrapper full-page-wrapper">
-        <div class="content-wrapper d-flex align-items-center auth">
-          <div class="row flex-grow justify-content-center">
-            <div class="col-lg-5">
-              <div class="auth-form-light text-left p-5">
-                <div class="brand-logo">
-                  <h2>Complaint Mgmt System</h2>
-                  <hr />
-                </div>
-                <h6 class="font-weight-light mb-4">Sign in to continue</h6>
-                <form class="pt-3" action="{% url 'doLogin' %}" method="post">
-                  {% include 'includes/messages.html' %}
-                  {% csrf_token %}
+    <div class="auth-form-light text-left">
+      <div class="brand-logo">
+        <h2>Complaint Mgmt System</h2>
+        <hr />
+      </div>
+      <h6 class="font-weight-light mb-4 text-center">Sign in to continue</h6>
 
-                  <div class="form-group">
-                    <input type="email" class="form-control" id="email" name="email" placeholder="Your Email Address" required>
-                  </div>
+      <form class="pt-3" action="{% url 'doLogin' %}" method="post">
+        {% include 'includes/messages.html' %}
+        {% csrf_token %}
 
-                  <div class="form-group">
-                    <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
-                  </div>
+        <div class="form-group">
+          <input type="email" class="form-control" id="email" name="email" placeholder="Your Email Address" required>
+        </div>
 
-                  <div class="d-flex justify-content-between align-items-center mb-3">
-                    <div class="form-check">
-                      <label class="form-check-label text-muted">
-                        <input type="checkbox" class="form-check-input" name="remember"> Remember me
-                      </label>
-                    </div>
-                    <div>
-                      <a href="{% url 'change_password' %}" class="text-primary">Forgot password?</a>
-                    </div>
-                  </div>
+        <div class="form-group">
+          <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
+        </div>
 
-                  <div class="mt-3">
-                    <button type="submit" class="btn btn-primary btn-block btn-lg">Login</button>
-                  </div>
-
-                  <div class="mt-4 text-center">
-                    <a href="{% url 'usersignup' %}" class="btn signup-btn btn-block btn-lg">Create an Account</a>
-                  </div>
-                </form>
-              </div>
-            </div>
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <div class="form-check">
+            <input type="checkbox" class="form-check-input" id="remember" name="remember">
+            <label class="form-check-label" for="remember">Remember me</label>
+          </div>
+          <div>
+            <a href="{% url 'change_password' %}" class="text-primary">Forgot password?</a>
           </div>
         </div>
-        <!-- content-wrapper ends -->
-      </div>
-      <!-- page-body-wrapper ends -->
+
+          <div class="mt-3">
+            <button type="submit" class="btn btn-primary btn-block btn-lg">Login</button>
+          </div>
+
+          <div class="mt-4">
+            <a href="{% url 'usersignup' %}" class="btn signup-btn btn-block btn-lg">Create an Account</a>
+          </div>
+      </form>
     </div>
-    <!-- container-scroller -->
 
     <!-- JS Scripts -->
     <script src="{% static 'assets/vendors/js/vendor.bundle.base.js' %}"></script>

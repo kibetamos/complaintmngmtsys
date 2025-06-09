@@ -102,34 +102,48 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form method="POST" action="{% url 'lodgedcomplaintremark' %}">
-                    {% csrf_token %}
-                    <div class="modal-body">
-                        <table class="table table-bordered">
-                            <tr>
-                                <th>Remark :</th>
-                                <td>
-                                    <textarea name="remark" placeholder="Admin Remark" rows="5" class="form-control" required></textarea>
-                                    <input type="hidden" name="comp_id" id="comp_id" />
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>Status :</th>
-                                <td>
-                                    <select name="status" class="form-control" required>
-                                        <option value="">Select Status</option>
-                                        <option value="Inprocess">Inprocess</option>
-                                        <option value="Closed">Closed</option>
-                                    </select>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Update</button>
-                    </div>
-                </form>
+               <form method="POST" action="{% url 'lodgedcomplaintremark' %}">
+    {% csrf_token %}
+    <div class="modal-body">
+        <table class="table table-bordered">
+            <tr>
+                <th>Remark :</th>
+                <td>
+                    <textarea name="remark" placeholder="Admin Remark" rows="5" class="form-control" required></textarea>
+                    <input type="hidden" name="comp_id" id="comp_id" />
+                </td>
+            </tr>
+            <tr>
+                <th>Status :</th>
+                <td>
+                    <select name="status" class="form-control" required>
+                        <option value="">Select Status</option>
+                        <option value="Inprocess">Inprocess</option>
+                        <option value="Closed">Closed</option>
+                    </select>
+                </td>
+            </tr>
+            <!-- NEW Urgency Field -->
+            <tr>
+                <th>Urgency :</th>
+                <td>
+                    <select name="urgency" class="form-control" required>
+                        <option value="">Select Urgency</option>
+                        <option value="Low">Low</option>
+                        <option value="Medium">Medium</option>
+                        <option value="High">High</option>
+                        <option value="Critical">Critical</option>
+                    </select>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Update</button>
+    </div>
+</form>
+
             </div>
         </div>
     </div>

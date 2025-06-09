@@ -32,7 +32,7 @@ class CustomUser(AbstractUser):
 
     user_type = models.IntegerField(choices=USER_TYPES, default=2)
     profile_pic = models.ImageField(upload_to='profile_pics/', blank=True, null=True)
-
+    # phone_number = models.CharField(max_length=15, blank=True, null=True)
 
     def __str__(self):
         return f"{self.username} ({self.user_type})"
@@ -170,7 +170,7 @@ class Complaints(models.Model):
     complaintdate_at = models.DateTimeField(auto_now_add=True)
     remark = models.TextField(blank=True)
 
-    urgency = models.CharField(max_length=10, choices=URGENCY_LEVELS, default="Medium")
+    urgency = models.CharField(max_length=10, choices=URGENCY_LEVELS, default="Medium", null=True)
     assigned_days = models.IntegerField(default=0)
     due_date = models.DateField(null=True, blank=True)
 
@@ -195,10 +195,10 @@ class Complaints(models.Model):
 
     def save(self, *args, **kwargs):
         urgency_days = {
-            "Low": 10,
-            "Medium": 7,
-            "High": 5,
-            "Critical": 1  
+            "Low": 90,
+            "Medium": 70,
+            "High": 50,
+            "Critical": 10 
         }
 
         self.assigned_days = urgency_days.get(self.urgency, 0)

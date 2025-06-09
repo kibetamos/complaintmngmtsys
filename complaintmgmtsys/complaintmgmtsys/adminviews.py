@@ -556,11 +556,13 @@ def LODGEDCOMPLAINTSREMARK(request):
         complaint_id = request.POST.get('comp_id')
         remark_text = request.POST.get('remark')
         status = request.POST.get('status')
+        urgency = request.POST.get('urgency')
        
         # Update the Complaints model
         lodged_complaint = Complaints.objects.get(id=complaint_id)
         lodged_complaint.remark = remark_text
         lodged_complaint.status = status
+        lodged_complaint.urgency = urgency
         lodged_complaint.save()
         
         # Create a new ComplaintRemark entry

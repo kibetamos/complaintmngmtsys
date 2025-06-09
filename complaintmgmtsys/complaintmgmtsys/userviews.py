@@ -9,7 +9,7 @@ import random
 import json
 from django.utils.timezone import now
 from datetime import timedelta
-
+from cmsapp.models import Complaints
 
 
 
@@ -52,45 +52,55 @@ def USERHOME(request):
 #     return render(request,'user/userdashboard.html',context)
 
 def USERSIGNUP(request):
-   
     if request.method == "POST":
         pic = request.FILES.get('pic')
         first_name = request.POST.get('first_name')
         last_name = request.POST.get('last_name')
         username = request.POST.get('username')
         email = request.POST.get('email')
-        mobno = request.POST.get('mobno')        
+        mobno = request.POST.get('mobno', '').strip()        
         password = request.POST.get('password')
+        password2 = request.POST.get('password2')  # New line
 
         if CustomUser.objects.filter(email=email).exists():
-            messages.warning(request,'Email already exist')
+            messages.warning(request, 'Email already exists')
             return redirect('usersignup')
-        if CustomUser.objects.filter(username=username).exists():
-            messages.warning(request,'Username already exist')
-            return redirect('usersignup')
-        else:
-            user = CustomUser(
-               first_name=first_name,
-               last_name=last_name,
-               username=username,
-               email=email,
-               user_type=2,
-               profile_pic = pic,
-            )
-            user.set_password(password)
-            user.save()            
-            comuser = UserReg(
-                admin = user,                
-                mobilenumber = mobno,              
-                
-            )
-            comuser.save()            
-            messages.success(request,'Signup Successfully')
-            return redirect('usersignup')
-    
-    
 
-from cmsapp.models import Complaints
+        if CustomUser.objects.filter(username=username).exists():
+            messages.warning(request, 'Username already exists')
+            return redirect('usersignup')
+        
+        if not mobno:
+            messages.error(request, 'Mobile number is required.')
+            return redirect('usersignup')
+
+        # Password confirmation check
+        if password != password2:
+            messages.error(request, 'Passwords do not match.')
+            return redirect('usersignup')
+
+        user = CustomUser(
+            first_name=first_name,
+            last_name=last_name,
+            username=username,
+            email=email,
+            user_type=2,
+            profile_pic=pic,
+        )
+        user.set_password(password)
+        user.save()
+
+        comuser = UserReg(
+            admin=user,
+            mobilenumber=mobno,
+        )
+        comuser.save()
+
+        messages.success(request, 'Signup Successfully')
+        return redirect('doLogin')
+
+    return render(request, 'user/user_reg.html')
+
 @login_required
 def view_assigned_complaints(request):
     assigned_complaints = Complaints.objects.filter(assigned_to=request.user)
@@ -176,11 +186,11 @@ def REGCOMPLAINT(request):
             noc = request.POST.get('noc')
             complaindetails = request.POST.get('complaindetails')
             compfile = request.FILES.get('compfile')
-            urgency = request.POST.get('urgency_level')
+            # urgency = request.POST.get('urgency_level')
 
-            if not urgency:
-                messages.error(request, "Please select an urgency level.")
-                return redirect("regcomplaint")
+            # if not urgency:
+            #     messages.error(request, "Please select an urgency level.")
+            #     return redirect("regcomplaint")
 
             # Fetch related objects
             cid = Category.objects.get(id=cat_id)
@@ -206,7 +216,7 @@ def REGCOMPLAINT(request):
                 complaindetails=complaindetails,
                 compfile=compfile,
                 userregid=userreg,
-                urgency=urgency,
+                # urgency=urgency,
             )
             complaint.save()
 

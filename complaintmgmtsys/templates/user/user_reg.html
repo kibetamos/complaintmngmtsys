@@ -135,7 +135,7 @@
       <hr />
     </div>
 
-    <form class="pt-3" action="" method="POST" enctype="multipart/form-data">
+    <form action="{% url 'usersignup' %}" method="POST" enctype="multipart/form-data">
       {% include 'includes/messages.html' %}
       {% csrf_token %}
 

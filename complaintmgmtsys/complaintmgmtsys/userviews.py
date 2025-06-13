@@ -60,7 +60,7 @@ def USERSIGNUP(request):
         email = request.POST.get('email')
         mobno = request.POST.get('mobno', '').strip()        
         password = request.POST.get('password')
-        password2 = request.POST.get('password2')  # New line
+        password2 = request.POST.get('password2')  
 
         if CustomUser.objects.filter(email=email).exists():
             messages.warning(request, 'Email already exists')

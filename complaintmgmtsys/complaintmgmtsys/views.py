@@ -79,7 +79,7 @@ def doLogin(request):
             return redirect('login')  # Redirect back to the login page with an error message
     else:
         # If the request method is not POST, redirect to the login page with an error message
-        messages.error(request, 'Invalid request method')
+        # messages.error(request, 'Invalid request method')
         return redirect('login')
 
 
